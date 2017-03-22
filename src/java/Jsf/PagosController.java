@@ -20,6 +20,7 @@ import Jpa.EmpresaFacadeLocal;
 import Jpa.EstatuscontableFacadeLocal;
 import Jpa.EstatusfacturaFacadeLocal;
 import Jpa.MaestromovimientoFacadeLocal;
+import Jpa.MovimientobancarioFacadeLocal;
 import Jpa.PagocompraFacadeLocal;
 import Jpa.RequerimientoFacadeLocal;
 import Jpa.TipoconjuntoFacadeLocal;
@@ -39,6 +40,7 @@ import Modelo.Empresa;
 import Modelo.Estatuscontable;
 import Modelo.Estatusfactura;
 import Modelo.Maestromovimiento;
+import Modelo.Movimientobancario;
 import Modelo.Pagocompra;
 import Modelo.Requerimiento;
 import Modelo.Tipoconjunto;
@@ -106,6 +108,8 @@ public class PagosController implements Serializable {
     private MaestromovimientoFacadeLocal maestromovimientoEJB;
     @EJB
     private TipoconjuntoFacadeLocal tipoconjuntoEJB;
+    @EJB
+    private MovimientobancarioFacadeLocal movimientoBancarioEJB;
 
     private Auxiliarrequerimiento auxiliarrequerimiento;
     private Compra compra;
@@ -118,6 +122,7 @@ public class PagosController implements Serializable {
     private Estatuscontable estatuscontab = null;
     private Banco banco;
     private Cuentabancaria cuentabanco;
+
     private Pagocompra pago;
     private Usuario usa;
     private Departamento dpto;
@@ -145,16 +150,12 @@ public class PagosController implements Serializable {
     DecimalFormat formatearnumero = new DecimalFormat("###,###.##");
     private String correo;
     private envioCorreo enviomail;
-    @Inject
-    private Detalleretencionivaef detalleretencionivaef;
-    @Inject
-    private Detalleretencionislref detalleretencionislref;
     private double ivaretenido;
     private double islrretenido;
     private double montoapagar;
     private double totalretenido;
     ArrayList<Detallecompra> lista = new ArrayList();
-     private Tipoconjunto tipoconjunto = null;
+    private Tipoconjunto tipoconjunto = null;
 
     @Inject
     private Auxiliarrequerimiento auxiliar;
@@ -169,6 +170,12 @@ public class PagosController implements Serializable {
     private Cuentabancaria cuentabancaria;
     @Inject
     private Maestromovimiento maestromovi;
+    @Inject
+    private Detalleretencionivaef detalleretencionivaef;
+    @Inject
+    private Detalleretencionislref detalleretencionislref;
+    @Inject
+    private Movimientobancario movimientobancario;
 
     public List<Cuentabancaria> getLstCuentasSelecc() {
         return lstCuentasSelecc;
@@ -425,9 +432,9 @@ public class PagosController implements Serializable {
     public void asignar(Compra compr) {
         this.tipocompra = 1;
         this.visualizar = 0;
-        this.totalretenido=0;
-        this.ivaretenido=0;
-        this.islrretenido=0;
+        this.totalretenido = 0;
+        this.ivaretenido = 0;
+        this.islrretenido = 0;
         this.compra = compr;
         this.pagocompra.setTotalpago(compra.getTotal());
         this.montoapagar = compra.getTotal();
@@ -446,12 +453,12 @@ public class PagosController implements Serializable {
         empresa = empresaEJB.devolverEmpresabase();
         double montocompra = compra.getTotal();
         double montoiva = compra.getIva();
-        
+
         // OJO CON ESTAS VARIABLES PARA CUANDO CAMBIE LA UNIDAD TRIBUTARIA CAMBIARLAS
         montopisoretiva = (20 * 300);
         montopisoretislr = 25000;
         //////////////////////////////////////////////////////////////////////////////
-        
+
         int personaj = compra.getRifproveedor().getIdpersonalidad().getIdpersonalidad();
         int residencia = compra.getRifproveedor().getIdresidencia().getIdresidencia();
         int tipo1;
@@ -469,44 +476,44 @@ public class PagosController implements Serializable {
             if (montocompra >= montopisoretiva) {
                 if (tipocompra == 3) {
                     visualizar = 5;
-                }else if (tipocompra == 1) {
+                } else if (tipocompra == 1) {
                     if (montoiva > 0) {
-                        visualizar = 1;                    
-                    }else {
-                        visualizar=5;
+                        visualizar = 1;
+                    } else {
+                        visualizar = 5;
                     }
-                }else if ((tipocompra == 2) && (personaj == 2) && (residencia == 1)) {
+                } else if ((tipocompra == 2) && (personaj == 2) && (residencia == 1)) {
                     if (montocompra >= montopisoretislr) {
                         if (montoiva > 0) {
-                            visualizar=2;
-                        }else{
-                            visualizar=3;
+                            visualizar = 2;
+                        } else {
+                            visualizar = 3;
                         }
-                    }else {
+                    } else {
                         if (montoiva > 0) {
-                            visualizar=1;
-                        }else{
-                            visualizar=5;
+                            visualizar = 1;
+                        } else {
+                            visualizar = 5;
                         }
                     }
-                }else{
+                } else {
                     if (montoiva > 0) {
-                        visualizar=2;
-                    }else{
-                        visualizar=3;
+                        visualizar = 2;
+                    } else {
+                        visualizar = 3;
                     }
                 }
-            }else {
+            } else {
                 if (tipocompra == 2) {
                     if ((personaj == 2) && (residencia == 1)) {
-                        visualizar=5;
-                    }else{
-                        visualizar = 3;                    
+                        visualizar = 5;
+                    } else {
+                        visualizar = 3;
                     }
                 } else if (tipocompra == 3) {
                     visualizar = 5;
-                } else if (tipocompra ==1){
-                    visualizar=5;
+                } else if (tipocompra == 1) {
+                    visualizar = 5;
                 }
             }
         } else if (empresa.getIdcontribuyente().getIdcontribuyente() == 1 || empresa.getIdcontribuyente().getIdcontribuyente() == 3) {
@@ -517,13 +524,13 @@ public class PagosController implements Serializable {
                     } else {
                         visualizar = 5;
                     }
-                }else{
-                    visualizar=4;
+                } else {
+                    visualizar = 4;
                 }
-            }else if (tipocompra == 3) {
-                    visualizar = 5;
-            } else if (tipocompra ==1){
-                    visualizar=5;
+            } else if (tipocompra == 3) {
+                visualizar = 5;
+            } else if (tipocompra == 1) {
+                visualizar = 5;
             }
         }
         calcularMontoapagar();
@@ -665,10 +672,11 @@ public class PagosController implements Serializable {
                     pagocompra.setMontoretenido(0.0);
                 }
                 cuentabanco = pagocompra.getIdcuentabancaria();
+
 //              pagocompra.setTotalpago(compra.getTotal());
 //              pagocompra.setSaldopendiente(compra.getMontopendiente());
                 pagocompraEJB.create(pagocompra);
-                
+
                 int tipoconj = 2;
                 tipoconjunto = tipoconjuntoEJB.cambiartipoConjunto(tipoconj);
                 pagocompra.setIdpagocompra(pagocompraEJB.ultimopago());
@@ -686,9 +694,19 @@ public class PagosController implements Serializable {
                 }
 
                 double saldoactualbanco = 0;
+                double saldoanteriorbanco = 0;
+                saldoanteriorbanco = pagocompra.getIdcuentabancaria().getSaldo();
                 saldoactualbanco = (pagocompra.getIdcuentabancaria().getSaldo() - pagocompra.getTotalpago());
                 cuentabanco.setSaldo(saldoactualbanco);
                 cuentabancariaEJB.edit(cuentabanco);
+
+                movimientobancario.setFecha(pagocompra.getFechapago());
+                movimientobancario.setIdcuentabancaria(cuentabanco);
+                movimientobancario.setSaldoanterior(saldoanteriorbanco);
+                movimientobancario.setDebito(pagocompra.getTotalpago());
+                movimientobancario.setSaldoactual(saldoactualbanco);
+                movimientoBancarioEJB.create(movimientobancario);
+
                 String subject;
                 String fechapag = formateador.format(pagocompra.getFechapago());
                 correo = "COMPRA NRO: " + compra.getIdcompra()
@@ -731,7 +749,7 @@ public class PagosController implements Serializable {
                 detalleretencionislrefEJB.create(detalleretencionislref);
             }
             calcularMontoapagar();
-            totalretenido=ivaretenido+islrretenido;
+            totalretenido = ivaretenido + islrretenido;
             visualizar = 7;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Su Retencion fue Almacenada", ""));
         } catch (Exception e) {

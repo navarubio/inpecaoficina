@@ -18,7 +18,8 @@ import javax.persistence.Query;
  * @author sofimar
  */
 @Stateless
-public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFacadeLocal{
+public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFacadeLocal {
+
     @PersistenceContext(unitName = "InpecaPU")
     private EntityManager em;
 
@@ -30,7 +31,7 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
     public FacturaFacade() {
         super(Factura.class);
     }
-    
+
     @Override
     public Factura ultimaInsertada() {
         String consulta = null;
@@ -47,7 +48,7 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
         }
         return ultima;
     }
-    
+
     @Override
     public int siguientefactura() {
         String consulta = null;
@@ -63,16 +64,17 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
         } catch (Exception e) {
             throw e;
         }
-        numeracion = ultima.getNumerofact()+1;
+        numeracion = ultima.getNumerofact() + 1;
         return numeracion;
     }
-    
+
     @Override
-    public String  siguientefacturaformat() {
+    public String siguientefacturaformat() {
+        int cargaoriginal = 705;
         String consulta = null;
         Factura ultima = new Factura();
         int numeracion;
-        DecimalFormat myFormatter = new DecimalFormat("00000000"); 
+        DecimalFormat myFormatter = new DecimalFormat("00000000");
         //formatear la cantidad 
         try {
             consulta = "Select f From Factura f Order By f.numerofact Desc";
@@ -84,21 +86,21 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
         } catch (Exception e) {
             throw e;
         }
-        if (ultima.getNumerofact()!=null){
-            numeracion = ultima.getNumerofact()+1;
-        }else{
-            numeracion=1;
+        if (ultima.getNumerofact() != null) {
+            numeracion = ultima.getNumerofact() + 1;
+        } else {
+            numeracion = cargaoriginal + 1;
         }
-        String output = myFormatter.format(numeracion); 
-
+        String output = myFormatter.format(numeracion);
         return output;
     }
+
     @Override
-    public String  ultimafacturaformat() {
+    public String ultimafacturaformat() {
         String consulta = null;
         Factura ultima = new Factura();
         int numeracion;
-        DecimalFormat myFormatter = new DecimalFormat("00000000"); 
+        DecimalFormat myFormatter = new DecimalFormat("00000000");
         //formatear la cantidad 
         try {
             consulta = "Select f From Factura f Order By f.numerofact Desc";
@@ -111,7 +113,7 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
             throw e;
         }
         numeracion = ultima.getNumerofact();
-        String output = myFormatter.format(numeracion); 
+        String output = myFormatter.format(numeracion);
 
         return output;
     }
@@ -120,20 +122,20 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
     public List<Factura> buscarfacturasporCobrar() {
         String consulta;
         int idstatus = 2;
-        int idstatus2 =3;
+        int idstatus2 = 3;
         List<Factura> lista = null;
         try {
             consulta = "From Factura f where f.idestatusfacturaventa.idestatusfacturaventa= ?1 or f.idestatusfacturaventa.idestatusfacturaventa= ?2";
             Query query = em.createQuery(consulta);
             query.setParameter(1, idstatus);
-            query.setParameter(2, idstatus2);            
+            query.setParameter(2, idstatus2);
             lista = query.getResultList();
         } catch (Exception e) {
             throw e;
         }
         return lista;
     }
-    
+
     @Override
     public List<Factura> buscarfacturasCobradas() {
         String consulta;

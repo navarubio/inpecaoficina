@@ -13,6 +13,7 @@ import Jpa.EstatuscontableFacadeLocal;
 import Jpa.EstatusfacturaventaFacadeLocal;
 import Jpa.FacturaFacadeLocal;
 import Jpa.MaestromovimientoFacadeLocal;
+import Jpa.MovimientobancarioFacadeLocal;
 import Jpa.TipoconjuntoFacadeLocal;
 import Jpa.TipopagoFacadeLocal;
 import Modelo.Banco;
@@ -25,6 +26,7 @@ import Modelo.Estatuscontable;
 import Modelo.Estatusfacturaventa;
 import Modelo.Factura;
 import Modelo.Maestromovimiento;
+import Modelo.Movimientobancario;
 import Modelo.Tipoconjunto;
 import Modelo.Tipopago;
 import java.io.Serializable;
@@ -72,6 +74,8 @@ public class CobroventasController implements Serializable {
     private TipoconjuntoFacadeLocal tipoconjuntoEJB;
     @EJB
     private MaestromovimientoFacadeLocal maestromovimientoEJB;
+    @EJB
+    private MovimientobancarioFacadeLocal movimientoBancarioEJB;
 
     private Factura factura;
     private int numeroFact = 0;
@@ -118,6 +122,8 @@ public class CobroventasController implements Serializable {
     private Detalleretencionivasp detalleretencionivasp;
     @Inject
     private Detalleretencionislrsp detalleretencionislrsp;
+    @Inject
+    private Movimientobancario movimientobancario;
 
     public double getSaldocuenta() {
         return saldocuenta;
@@ -288,8 +294,6 @@ public class CobroventasController implements Serializable {
         this.totalretenido = 0;
         this.ivaretenido = 0;
         this.islrretenido = 0;
-    
-
 
     }
 
@@ -340,9 +344,17 @@ public class CobroventasController implements Serializable {
             maestromovimientoEJB.create(maestromovi);
 
             double saldoactualbanco = 0;
+            double saldoanteriorbanco = 0;
             saldoactualbanco = cobro.getMontocobrado() + cobro.getIdcuentabancaria().getSaldo();
             cuentabancaria.setSaldo(saldoactualbanco);
             cuentabancariaEJB.edit(cuentabancaria);
+
+            movimientobancario.setFecha(cobro.getFechacobro());
+            movimientobancario.setIdcuentabancaria(cuentabancaria);
+            movimientobancario.setSaldoanterior(saldoanteriorbanco);
+            movimientobancario.setDebito(pagocompra.getTotalpago());
+            movimientobancario.setSaldoactual(saldoactualbanco);
+            movimientoBancarioEJB.create(movimientobancario);
 
             if (factura.getSaldopendiente() < 1) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Su Cobro fue Almacenado"));

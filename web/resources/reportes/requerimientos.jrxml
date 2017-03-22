@@ -63,7 +63,7 @@ FROM
 			</staticText>
 			<image>
 				<reportElement x="634" y="-3" width="118" height="47" uuid="753d1aab-962a-4e5f-8f4f-aa1d3635fa60"/>
-				<imageExpression><![CDATA["D:\\APLICACIONES JAVA SE - EE\\SistemaINPECA\\Inpeca\\web\\resources\\images\\LogoInpeca.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\Users\\Inpeca\\Documents\\NetBeansProjects\\Inpeca\\Inpeca\\web\\resources\\images\\LogoInpeca.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="0" y="25" width="335" height="12" uuid="bdbcbfdf-13f1-43c7-ad3b-a8080e5a1e53"/>

@@ -312,7 +312,7 @@ WHERE
 			</staticText>
 			<image>
 				<reportElement x="8" y="0" width="96" height="56" uuid="e0ae1978-eb44-4a7d-8161-89ab7ff9a4ee"/>
-				<imageExpression><![CDATA["D:\\APLICACIONES JAVA SE - EE\\SistemaINPECA\\Inpeca\\web\\resources\\images\\LogoInpeca.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\Users\\Inpeca\\Documents\\NetBeansProjects\\Inpeca\\Inpeca\\web\\resources\\images\\LogoInpeca.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="269" y="111" width="108" height="14" uuid="65c4ba48-47e2-4614-8ed6-5a18b5394823"/>
