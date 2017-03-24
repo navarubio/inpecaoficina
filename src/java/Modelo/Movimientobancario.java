@@ -62,6 +62,15 @@ public class Movimientobancario implements Serializable {
     @JoinColumn(name = "idcuentabancaria", referencedColumnName = "idcuentabancaria")
     @ManyToOne
     private Cuentabancaria idcuentabancaria;
+    @JoinColumn(name = "idpagocompra", referencedColumnName = "idpagocompra")
+    @ManyToOne
+    private Pagocompra idpagocompra;
+    @JoinColumn(name = "idcobroventa", referencedColumnName = "idcobroventa")
+    @ManyToOne
+    private Cobroventa idcobroventa;
+    @JoinColumn(name = "idotroingreso", referencedColumnName = "idotroingreso")
+    @ManyToOne
+    private Otroingreso idotroingreso;
 
 
     public Movimientobancario() {
@@ -87,6 +96,31 @@ public class Movimientobancario implements Serializable {
         this.idcuentabancaria = idcuentabancaria;
     }
 
+    public Pagocompra getIdpagocompra() {
+        return idpagocompra;
+    }
+
+    public void setIdpagocompra(Pagocompra idpagocompra) {
+        this.idpagocompra = idpagocompra;
+    }
+
+    public Cobroventa getIdcobroventa() {
+        return idcobroventa;
+    }
+
+    public void setIdcobroventa(Cobroventa idcobroventa) {
+        this.idcobroventa = idcobroventa;
+    }
+
+    public Otroingreso getIdotroingreso() {
+        return idotroingreso;
+    }
+
+    public void setIdotroingreso(Otroingreso idotroingreso) {
+        this.idotroingreso = idotroingreso;
+    }
+
+    
     public Date getFecha() {
         return fecha;
     }

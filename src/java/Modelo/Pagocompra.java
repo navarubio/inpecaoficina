@@ -49,6 +49,7 @@ public class Pagocompra implements Serializable {
     private double montoretenido;
     @OneToMany(mappedBy = "idpagocompra")
     private Collection<Maestromovimiento> maestromovimientoCollection;
+    
     @JoinColumn(name = "idmaestro", referencedColumnName = "idmaestro")
     @ManyToOne
     private Maestromovimiento idmaestro;
@@ -79,6 +80,9 @@ public class Pagocompra implements Serializable {
     private Collection<Retencionpago> retencionpagoCollection;
     @OneToMany(mappedBy = "idpagocompra")
     private Collection<Detalleretencionivaef> detalleretencionivaefCollection;
+    @OneToMany(mappedBy = "idpagocompra")
+    private Collection<Movimientobancario> movimientobancarioCollection;
+
     @JoinColumn(name = "idcompra", referencedColumnName = "idcompra")
     @ManyToOne
     private Compra idcompra;
@@ -175,6 +179,15 @@ public class Pagocompra implements Serializable {
 
     public void setDetalleretencionivaefCollection(Collection<Detalleretencionivaef> detalleretencionivaefCollection) {
         this.detalleretencionivaefCollection = detalleretencionivaefCollection;
+    }
+    
+    @XmlTransient
+    public Collection<Movimientobancario> getMovimientobancarioCollection() {
+        return movimientobancarioCollection;
+    }
+
+    public void setMovimientobancarioCollection(Collection<Movimientobancario> movimientobancarioCollection) {
+        this.movimientobancarioCollection = movimientobancarioCollection;
     }
     
     public Compra getIdcompra() {

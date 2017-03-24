@@ -705,8 +705,9 @@ public class PagosController implements Serializable {
                 movimientobancario.setSaldoanterior(saldoanteriorbanco);
                 movimientobancario.setDebito(pagocompra.getTotalpago());
                 movimientobancario.setSaldoactual(saldoactualbanco);
+                movimientobancario.setIdpagocompra(pagocompra);
                 movimientoBancarioEJB.create(movimientobancario);
-
+                
                 String subject;
                 String fechapag = formateador.format(pagocompra.getFechapago());
                 correo = "COMPRA NRO: " + compra.getIdcompra()

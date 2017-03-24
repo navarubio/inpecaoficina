@@ -16,7 +16,7 @@
         <ui:define name="body">
             <h:form id="MovimientobancarioListForm">
                 <p:panel header="#{bundlebancario.ListMovimientobancarioTitle}">
-                    <p:dataTable id="datalist" value="#{movimientobancarioController.items}" var="item"
+                    <p:dataTable id="datalist" value="#{movimientobancarioController.items}" var="item" widgetVar="movimientosencta"
                                  selectionMode="single" selection="#{movimientobancarioController.selected}"
                                  paginator="true"
                                  rowKey="#{item.idmovimiento}"

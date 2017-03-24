@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Otroingreso.findByFechaingreso", query = "SELECT o FROM Otroingreso o WHERE o.fechaingreso = :fechaingreso"),
     @NamedQuery(name = "Otroingreso.findByObservaciones", query = "SELECT o FROM Otroingreso o WHERE o.observaciones = :observaciones")})
 public class Otroingreso implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +48,11 @@ public class Otroingreso implements Serializable {
     @Column(name = "idotroingreso")
     private Integer idotroingreso;
     @OneToMany(mappedBy = "idotroingreso")
-    private Collection<Maestromovimiento> maestromovimientoCollection;    
+    private Collection<Maestromovimiento> maestromovimientoCollection;
+    @OneToMany(mappedBy = "idotroingreso")
+    private Collection<Movimientobancario> movimientobancarioCollection;
+
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "montoingresado")
     private Double montoingresado;
@@ -165,7 +170,7 @@ public class Otroingreso implements Serializable {
     public String toString() {
         return "Modelo.Otroingreso[ idotroingreso=" + idotroingreso + " ]";
     }
-    
+
     @XmlTransient
     public Collection<Maestromovimiento> getMaestromovimientoCollection() {
         return maestromovimientoCollection;
@@ -174,5 +179,13 @@ public class Otroingreso implements Serializable {
     public void setMaestromovimientoCollection(Collection<Maestromovimiento> maestromovimientoCollection) {
         this.maestromovimientoCollection = maestromovimientoCollection;
     }
-    
+
+    @XmlTransient
+    public Collection<Movimientobancario> getMovimientobancarioCollection() {
+        return movimientobancarioCollection;
+    }
+
+    public void setMovimientobancarioCollection(Collection<Movimientobancario> movimientobancarioCollection) {
+        this.movimientobancarioCollection = movimientobancarioCollection;
+    }
 }

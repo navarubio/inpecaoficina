@@ -44,6 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Cobroventa implements Serializable {
     @OneToMany(mappedBy = "idcobroventa")
     private Collection<Maestromovimiento> maestromovimientoCollection;
+    
     @JoinColumn(name = "idmaestro", referencedColumnName = "idmaestro")
     @ManyToOne
     private Maestromovimiento idmaestro;
@@ -211,6 +212,7 @@ public class Cobroventa implements Serializable {
     public void setMaestromovimientoCollection(Collection<Maestromovimiento> maestromovimientoCollection) {
         this.maestromovimientoCollection = maestromovimientoCollection;
     }
+    
 
     public Maestromovimiento getIdmaestro() {
         return idmaestro;

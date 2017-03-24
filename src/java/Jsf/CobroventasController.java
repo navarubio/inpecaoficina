@@ -345,6 +345,7 @@ public class CobroventasController implements Serializable {
 
             double saldoactualbanco = 0;
             double saldoanteriorbanco = 0;
+            saldoanteriorbanco=cobro.getIdcuentabancaria().getSaldo();
             saldoactualbanco = cobro.getMontocobrado() + cobro.getIdcuentabancaria().getSaldo();
             cuentabancaria.setSaldo(saldoactualbanco);
             cuentabancariaEJB.edit(cuentabancaria);
@@ -352,7 +353,7 @@ public class CobroventasController implements Serializable {
             movimientobancario.setFecha(cobro.getFechacobro());
             movimientobancario.setIdcuentabancaria(cuentabancaria);
             movimientobancario.setSaldoanterior(saldoanteriorbanco);
-            movimientobancario.setDebito(pagocompra.getTotalpago());
+            movimientobancario.setCredito(cobro.getMontocobrado());
             movimientobancario.setSaldoactual(saldoactualbanco);
             movimientoBancarioEJB.create(movimientobancario);
 
