@@ -142,7 +142,7 @@ public class Cuentabancaria implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelo.Cuentabancaria[ idcuentabancaria=" + idcuentabancaria + " ]";
+        return numerocuenta;
     }
     
     @XmlTransient

@@ -20,8 +20,8 @@
                                  selectionMode="single" selection="#{movimientobancarioController.selected}"
                                  paginator="true"
                                  rowKey="#{item.idmovimiento}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rows="20"
+                                 rowsPerPageTemplate="20,30,40,50"
                                  >
 
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
@@ -39,12 +39,15 @@
                             </f:facet>
                             <h:outputText value="#{item.idcuentabancaria.idbanco.nombrebanco}"/>
                         </p:column>
-                        <p:column style="text-align: center">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundlebancario.ListMovimientobancarioTitle_idcuentabancaria}"/>
+                        <p:column width="200" filterBy="#{item.idcuentabancaria.numerocuenta}" headerText="#{bundlebancario.ListMovimientobancarioTitle_idcuentabancaria}" filterMatchMode="exact" style="text-align: center">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('movimientosencta').filter()" >
+                                    <f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{cuentabancariaController.items}" />
+                                </p:selectOneMenu>
                             </f:facet>
-                            <h:outputText value="#{item.idcuentabancaria.numerocuenta}"/>
-                        </p:column>
+                            <h:outputText value="#{item.idcuentabancaria.numerocuenta}" />
+                        </p:column>                        
                         <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundlebancario.ListMovimientobancarioTitle_fecha}"/>
