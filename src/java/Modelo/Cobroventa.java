@@ -68,6 +68,9 @@ public class Cobroventa implements Serializable {
     private Date fechacobro;
     @Column(name = "montopendiente")
     private Double montopendiente;
+    @Column(name = "montoretenido")
+    private Double montoretenido;
+    
     @JoinColumn(name = "numerofact", referencedColumnName = "numerofact")
     @ManyToOne
     private Factura numerofact;
@@ -178,6 +181,15 @@ public class Cobroventa implements Serializable {
     public void setObservacionescobro(String observacionescobro) {
         this.observacionescobro = observacionescobro;
     }
+
+    public Double getMontoretenido() {
+        return montoretenido;
+    }
+
+    public void setMontoretenido(Double montoretenido) {
+        this.montoretenido = montoretenido;
+    }
+    
 
     @Override
     public int hashCode() {
