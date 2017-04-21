@@ -70,7 +70,7 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
 
     @Override
     public String siguientefacturaformat() {
-        int cargaoriginal = 705;
+        int cargaoriginal = 0;
         String consulta = null;
         Factura ultima = new Factura();
         int numeracion;
