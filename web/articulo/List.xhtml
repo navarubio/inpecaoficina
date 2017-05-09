@@ -9,7 +9,7 @@
     <ui:composition template="/template.xhtml">
 
         <ui:define name="title">
-            <h:outputText value="#{bundle.ListArticuloTitle}"></h:outputText>
+            <h:outputText value="#{bundle.ListArticuloTitle}"></h:outputText> 
             <h:outputStylesheet library="css" name="index.css" />
         </ui:define>
 
@@ -93,18 +93,6 @@
                             </f:facet>
                             <h:outputText value="#{item.idgravamen.alicuota} %" style="float: right"/>
                         </p:column>
-                        <!--p:column  style="text-align: center">
-                            <f:facet name="header">
-                                <h:outputText value=".{bundle.ListArticuloTitle_idusuario}"/>
-                            </f:facet>
-                            <h:outputText value=".{item.idusuario.nombre}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value=".{bundle.ListArticuloTitle_cuentacontable}"/>
-                            </f:facet>
-                            <h:outputText value=".{item.idplandecuenta.idplandecuenta}- #{item.idplandecuenta.descripcioncuenta}"/>
-                        </p:column-->
 
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{articuloController.prepareCreate}" update=":ArticuloCreateForm" oncomplete="PF('ArticuloCreateDialog').show()"/>
